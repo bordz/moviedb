@@ -24,8 +24,18 @@ compose:
 #     - vendor/bundle
 #     - .git
 
+pipeline:
+  docker:
+    image: xcoordinate/docker
+    username: xcoordinate
+    password: $$DOCKER_HUB_PASSWORD
+    email: x.coordinate@gmail.com
+    repo: bordz/moviedb
+    tag: latest
+
 publish:
   docker:
+    image: xcoordinate/docker
     storage_driver: overlay
     username: xcoordinate
     password: $$DOCKER_HUB_PASSWORD
@@ -36,6 +46,7 @@ publish:
       branch: master
 
   docker:
+    image: xcoordinate/docker
     storage_driver: overlay
     username: xcoordinate
     password: $$DOCKER_HUB_PASSWORD
