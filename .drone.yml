@@ -30,7 +30,7 @@ publish:
     username: xcoordinate
     password: $$DOCKER_HUB_PASSWORD
     email: x.coordinate@gmail.com
-    repo: xcoordinate/moviedb
+    repo: bordz/moviedb
     tag: latest
     when:
       branch: master
@@ -40,7 +40,7 @@ publish:
     username: xcoordinate
     password: $$DOCKER_HUB_PASSWORD
     email: x.coordinate@gmail.com
-    repo: xcoordinate/moviedb
+    repo: bordz/moviedb
     tag: $$TAG
     when:
       event: tag
