@@ -11,6 +11,7 @@ build:
 #     RAILS_ENV: test
 #     SECRET_KEY_BASE: blahblahblah
 #
+
 compose:
   database:
     image: postgres:9.5.1
