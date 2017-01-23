@@ -19,42 +19,42 @@ compose:
   elasticsearch:
     image: elasticsearch:2.2.0
 
-# cache:
-#   mount:
-#     - vendor/bundle
-#     - .git
+cache:
+  mount:
+    - vendor/bundle
+    - .git
 
 pipeline:
   docker:
     image: plugins/docker
     username: xcoordinate
-    password: $$DOCKER_HUB_PASSWORD
+    password: ${DOCKER_HUB_PASSWORD}
     email: x.coordinate@gmail.com
     repo: bordz/moviedb
     tag: latest
 
-publish:
-  docker:
-    image: plugins/docker
-    storage_driver: overlay
-    username: xcoordinate
-    password: $$DOCKER_HUB_PASSWORD
-    email: x.coordinate@gmail.com
-    repo: bordz/moviedb
-    tag: latest
-    when:
-      branch: master
-
-  docker:
-    image: plugins/docker
-    storage_driver: overlay
-    username: xcoordinate
-    password: $$DOCKER_HUB_PASSWORD
-    email: x.coordinate@gmail.com
-    repo: bordz/moviedb
-    tag: $$TAG
-    when:
-      event: tag
+# publish:
+#   docker:
+#     image: plugins/docker
+#     storage_driver: overlay
+#     username: xcoordinate
+#     password: ${DOCKER_HUB_PASSWORD}
+#     email: x.coordinate@gmail.com
+#     repo: bordz/moviedb
+#     tag: latest
+#     when:
+#       branch: master
+#
+#   docker:
+#     image: plugins/docker
+#     storage_driver: overlay
+#     username: xcoordinate
+#     password: ${DOCKER_HUB_PASSWORD}
+#     email: x.coordinate@gmail.com
+#     repo: bordz/moviedb
+#     tag: $$TAG
+#     when:
+#       event: tag
 #
 # deploy:
 #   rancher:
