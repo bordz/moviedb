@@ -33,6 +33,22 @@ pipeline:
     repo: xcoordinate/moviedb
     tag: latest
 
+  rancher:
+    image: peloton/drone-rancher
+    url: http://139.162.118.183:8080/v1/projects/1a5
+    access_key: FFE2424D0B5A2FE82DB6
+    secret_key: h9W5GDvXWyhJvmbsBwXeQjFRydPu479aBbgMJZhT
+    service: moviedb/web
+    docker_image: xcoordinate/moviedb:latest
+
+  rancher:
+    image: peloton/drone-rancher
+    url: http://139.162.118.183:8080/v1/projects/1a5
+    access_key: FFE2424D0B5A2FE82DB6
+    secret_key: h9W5GDvXWyhJvmbsBwXeQjFRydPu479aBbgMJZhT
+    service: moviedb/worker
+    docker_image: xcoordinate/moviedb:latest
+
 # publish:
 #   docker:
 #     image: plugins/docker
