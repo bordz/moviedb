@@ -26,7 +26,7 @@ compose:
 
 pipeline:
   docker:
-    image: xcoordinate/docker
+    image: plugins/docker
     username: xcoordinate
     password: $$DOCKER_HUB_PASSWORD
     email: x.coordinate@gmail.com
@@ -35,7 +35,7 @@ pipeline:
 
 publish:
   docker:
-    image: xcoordinate/docker
+    image: plugins/docker
     storage_driver: overlay
     username: xcoordinate
     password: $$DOCKER_HUB_PASSWORD
@@ -46,7 +46,7 @@ publish:
       branch: master
 
   docker:
-    image: xcoordinate/docker
+    image: plugins/docker
     storage_driver: overlay
     username: xcoordinate
     password: $$DOCKER_HUB_PASSWORD
