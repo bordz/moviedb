@@ -25,6 +25,7 @@ cache:
     - .git
 
 pipeline:
+# for staging
   docker:
     image: plugins/docker
     username: xcoordinate
@@ -54,8 +55,8 @@ pipeline:
     docker_image: xcoordinate/moviedb:latest
     when:
       branch: master
-
-pipeline:
+      
+# for prod
   docker:
     image: plugins/docker
     username: xcoordinate
