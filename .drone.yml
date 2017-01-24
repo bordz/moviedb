@@ -73,7 +73,7 @@ pipeline:
     access_key: 67F82FF75AC93D4B5600
     secret_key: gkEUf5G6t5fHkgEzxdp4SBgaSZf8VUiPmGHGvA66
     service: moviedb/web
-    docker_image: xcoordinate/moviedb:${TAG}
+    docker_image: "xcoordinate/moviedb:${TAG}"
     when:
       event: tag
 
@@ -83,7 +83,7 @@ pipeline:
     access_key: 67F82FF75AC93D4B5600
     secret_key: gkEUf5G6t5fHkgEzxdp4SBgaSZf8VUiPmGHGvA66
     service: moviedb/worker
-    docker_image: xcoordinate/moviedb:${TAG}
+    docker_image: "xcoordinate/moviedb:${TAG}"
     when:
       event: tag
 
