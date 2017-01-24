@@ -32,6 +32,8 @@ pipeline:
     email: x.coordinate@gmail.com
     repo: xcoordinate/moviedb
     tag: latest
+    when:
+      branch: master
 
   rancher:
     image: peloton/drone-rancher
@@ -40,6 +42,8 @@ pipeline:
     secret_key: h9W5GDvXWyhJvmbsBwXeQjFRydPu479aBbgMJZhT
     service: moviedb/web
     docker_image: xcoordinate/moviedb:latest
+    when:
+      branch: master
 
   rancher:
     image: peloton/drone-rancher
@@ -48,6 +52,39 @@ pipeline:
     secret_key: h9W5GDvXWyhJvmbsBwXeQjFRydPu479aBbgMJZhT
     service: moviedb/worker
     docker_image: xcoordinate/moviedb:latest
+    when:
+      branch: master
+
+pipeline:
+  docker:
+    image: plugins/docker
+    username: xcoordinate
+    password: ${DOCKER_HUB_PASSWORD}
+    email: x.coordinate@gmail.com
+    repo: xcoordinate/moviedb
+    tag: ${TAG}
+    when:
+      event: tag
+
+  rancher:
+    image: peloton/drone-rancher
+    url: http://139.162.118.183:8080/v1/projects/1a5
+    access_key: 67F82FF75AC93D4B5600
+    secret_key: gkEUf5G6t5fHkgEzxdp4SBgaSZf8VUiPmGHGvA66
+    service: moviedb/web
+    docker_image: xcoordinate/moviedb:${TAG}
+    when:
+      event: tag
+
+  rancher:
+    image: peloton/drone-rancher
+    url: http://139.162.118.183:8080/v1/projects/1a5
+    access_key: 67F82FF75AC93D4B5600
+    secret_key: gkEUf5G6t5fHkgEzxdp4SBgaSZf8VUiPmGHGvA66
+    service: moviedb/worker
+    docker_image: xcoordinate/moviedb:${TAG}
+    when:
+      event: tag
 
 # publish:
 #   docker:
