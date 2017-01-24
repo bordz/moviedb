@@ -1,17 +1,6 @@
-build:
-  image: codemy/ruby:2.3.1
-  commands:
-    - gem update bundler
-    - bundle install --path vendor/bundle
-    - bundle exec rake db:create db:schema:load
-    - bundle exec rake test
 
-  environment:
-    RACK_ENV: test
-    RAILS_ENV: test
-    SECRET_KEY_BASE: blahblahblah
-
-compose:
+# compose:
+services:
   database:
     image: postgres:9.5.1
   redis:
@@ -25,67 +14,83 @@ cache:
     - .git
 
 pipeline:
-# for staging
-  docker:
-    image: plugins/docker
-    username: xcoordinate
-    password: ${DOCKER_HUB_PASSWORD}
-    email: x.coordinate@gmail.com
-    repo: xcoordinate/moviedb
-    tag: latest
-    when:
-      branch: master
+  build:
+    image: codemy/ruby:2.3.1
+    commands:
+      - gem update bundler
+      - bundle install --path vendor/bundle
+      - bundle exec rake db:create db:schema:load
+      - bundle exec rake test
 
-  rancher:
-    image: peloton/drone-rancher
-    url: http://139.162.118.183:8080/v1/projects/1a5
-    access_key: FFE2424D0B5A2FE82DB6
-    secret_key: h9W5GDvXWyhJvmbsBwXeQjFRydPu479aBbgMJZhT
-    service: moviedb/web
-    docker_image: xcoordinate/moviedb:latest
-    when:
-      branch: master
+    environment:
+      RACK_ENV: test
+      RAILS_ENV: test
+      SECRET_KEY_BASE: blahblahblah
 
-  rancher:
-    image: peloton/drone-rancher
-    url: http://139.162.118.183:8080/v1/projects/1a5
-    access_key: FFE2424D0B5A2FE82DB6
-    secret_key: h9W5GDvXWyhJvmbsBwXeQjFRydPu479aBbgMJZhT
-    service: moviedb/worker
-    docker_image: xcoordinate/moviedb:latest
-    when:
-      branch: master
+  publish:
+  # for staging
+    docker:
+      image: plugins/docker
+      username: xcoordinate
+      password: ${DOCKER_HUB_PASSWORD}
+      email: x.coordinate@gmail.com
+      repo: xcoordinate/moviedb
+      tag: latest
+      when:
+        branch: master
+  # for prod
+    docker:
+      image: plugins/docker
+      username: xcoordinate
+      password: ${DOCKER_HUB_PASSWORD}
+      email: x.coordinate@gmail.com
+      repo: xcoordinate/moviedb
+      tag: ${TAG}
+      when:
+        event: tag
 
-# for prod
-  docker:
-    image: plugins/docker
-    username: xcoordinate
-    password: ${DOCKER_HUB_PASSWORD}
-    email: x.coordinate@gmail.com
-    repo: xcoordinate/moviedb
-    tag: ${TAG}
-    when:
-      event: tag
+  deploy:
+    # for staging
+    rancher:
+      image: peloton/drone-rancher
+      url: http://139.162.118.183:8080/v1/projects/1a5
+      access_key: FFE2424D0B5A2FE82DB6
+      secret_key: h9W5GDvXWyhJvmbsBwXeQjFRydPu479aBbgMJZhT
+      service: moviedb/web
+      docker_image: xcoordinate/moviedb:latest
+      when:
+        branch: master
 
-  rancher:
-    image: peloton/drone-rancher
-    url: http://139.162.118.183:8080/v1/projects/1a35
-    access_key: 67F82FF75AC93D4B5600
-    secret_key: gkEUf5G6t5fHkgEzxdp4SBgaSZf8VUiPmGHGvA66
-    service: moviedb/web
-    docker_image: "xcoordinate/moviedb:${TAG}"
-    when:
-      event: tag
+    rancher:
+      image: peloton/drone-rancher
+      url: http://139.162.118.183:8080/v1/projects/1a5
+      access_key: FFE2424D0B5A2FE82DB6
+      secret_key: h9W5GDvXWyhJvmbsBwXeQjFRydPu479aBbgMJZhT
+      service: moviedb/worker
+      docker_image: xcoordinate/moviedb:latest
+      when:
+        branch: master
 
-  rancher:
-    image: peloton/drone-rancher
-    url: http://139.162.118.183:8080/v1/projects/1a35
-    access_key: 67F82FF75AC93D4B5600
-    secret_key: gkEUf5G6t5fHkgEzxdp4SBgaSZf8VUiPmGHGvA66
-    service: moviedb/worker
-    docker_image: "xcoordinate/moviedb:${TAG}"
-    when:
-      event: tag
+    # for prod
+    rancher:
+      image: peloton/drone-rancher
+      url: http://139.162.118.183:8080/v1/projects/1a35
+      access_key: 67F82FF75AC93D4B5600
+      secret_key: gkEUf5G6t5fHkgEzxdp4SBgaSZf8VUiPmGHGvA66
+      service: moviedb/web
+      docker_image: "xcoordinate/moviedb:${TAG}"
+      when:
+        event: tag
+
+    rancher:
+      image: peloton/drone-rancher
+      url: http://139.162.118.183:8080/v1/projects/1a35
+      access_key: 67F82FF75AC93D4B5600
+      secret_key: gkEUf5G6t5fHkgEzxdp4SBgaSZf8VUiPmGHGvA66
+      service: moviedb/worker
+      docker_image: "xcoordinate/moviedb:${TAG}"
+      when:
+        event: tag
 
 # publish:
 #   docker:
