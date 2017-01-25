@@ -1,13 +1,13 @@
 
 # compose:
-# services:
-#   database:
-#     image: postgres:9.5.1
-#   redis:
-#     image: redis:3.0.7
-#   elasticsearch:
-#     image: elasticsearch:2.2.0
-#
+services:
+  database:
+    image: postgres:9.5.1
+  redis:
+    image: redis:3.0.7
+  elasticsearch:
+    image: elasticsearch:2.2.0
+
 # cache:
 #   mount:
 #     - vendor/bundle
@@ -19,15 +19,13 @@
 #   SECRET_KEY_BASE: blahblahblah
 
 pipeline:
-  # build:
-  #   image: codemy/ruby:2.3.1
-  #   commands:
-  #     - gem update bundler
-  #     - bundle install --path vendor/bundle
-  #     - bundle exec rake db:create db:schema:load
-  #     - bundle exec rake test
-  #   when:
-  #     branch: master
+  build:
+    image: codemy/ruby:2.3.1
+    commands:
+      - gem update bundler
+      - bundle install --path vendor/bundle
+      - bundle exec rake db:create db:schema:load
+      - bundle exec rake test
 
   publish_latest:
     image: plugins/docker
