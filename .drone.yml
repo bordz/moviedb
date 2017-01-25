@@ -28,9 +28,6 @@ pipeline:
 
   publish_latest:
     image: plugins/docker
-    commands:
-      - gem update bundler
-      - bundle install --path vendor/bundle
     username: xcoordinate
     password: ${DOCKER_HUB_PASSWORD}
     email: x.coordinate@gmail.com
