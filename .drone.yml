@@ -13,19 +13,21 @@ cache:
     - vendor/bundle
     - .git
 
+environment:
+  RACK_ENV: test
+  RAILS_ENV: test
+  SECRET_KEY_BASE: blahblahblah
+
 pipeline:
   build:
+    when:
+      branch: master
     image: codemy/ruby:2.3.1
     commands:
       - gem update bundler
       - bundle install --path vendor/bundle
       - bundle exec rake db:create db:schema:load
       - bundle exec rake test
-
-    environment:
-      RACK_ENV: test
-      RAILS_ENV: test
-      SECRET_KEY_BASE: blahblahblah
 
   publish_latest:
     image: plugins/docker
