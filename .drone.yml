@@ -1,5 +1,3 @@
-
-# compose:
 services:
   database:
     image: postgres:9.5.1
@@ -8,11 +6,11 @@ services:
   elasticsearch:
     image: elasticsearch:2.2.0
 
-# cache:
-#   mount:
-#     - vendor/bundle
-#     - .git
-#
+cache:
+  mount:
+    - vendor/bundle
+    - .git
+
 # environment:
 #   RACK_ENV: test
 #   RAILS_ENV: test
@@ -22,10 +20,11 @@ pipeline:
   build:
     image: codemy/ruby:2.3.1
     commands:
-      - gem update bundler
-      - bundle install --path vendor/bundle
-      - bundle exec rake db:create db:schema:load
-      - bundle exec rake test
+      # - gem update bundler
+      # - bundle install --path vendor/bundle
+      # - bundle exec rake db:create db:schema:load
+      # - bundle exec rake test
+      - echo "hello world"
 
   publish_latest:
     image: plugins/docker
