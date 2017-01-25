@@ -22,9 +22,18 @@ pipeline:
     commands:
       # - gem update bundler
       # - bundle install --path vendor/bundle
-      # - bundle exec rake db:create db:schema:load
-      # - bundle exec rake test
+      - bundle exec rake db:create db:schema:load
+      - bundle exec rake test
       - echo "hello world"
+    cache:
+      mount:
+        - vendor/bundle
+        - .git
+
+  cache:
+    mount:
+      - vendor/bundle
+      - .git
 
   publish_latest:
     image: plugins/docker
