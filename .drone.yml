@@ -1,3 +1,5 @@
+
+# compose:
 services:
   database:
     image: postgres:9.5.1
@@ -5,6 +7,9 @@ services:
     image: redis:3.0.7
   elasticsearch:
     image: elasticsearch:2.2.0
+
+workspace:
+  base: /mydrone
 
 # cache:
 #   mount:
@@ -24,10 +29,6 @@ pipeline:
       - bundle install --path vendor/bundle
       - bundle exec rake db:create db:schema:load
       - bundle exec rake test
-    cache:
-      mount:
-        - vendor/bundle
-        - .git
 
   publish_latest:
     image: plugins/docker
@@ -38,10 +39,6 @@ pipeline:
     tag: latest
     when:
       branch: master
-    cache:
-      mount:
-        - vendor/bundle
-        - .git
 
   publish_tag:
     image: plugins/docker
